@@ -1,0 +1,251 @@
+/* Persian Date ERPNext Custom CSS */
+
+/* غیرفعال کردن تقویم استاندارد فراپه */
+.datepickers-container {
+    display: none !important;
+}
+
+/* استایل معادل میلادی */
+.gregorian-date, 
+.gregorian-datetime {
+    font-size: 11px;
+    color: #6c757d;
+    margin-top: 4px;
+    margin-bottom: 0;
+    padding: 2px 4px;
+    background-color: #f8f9fa;
+    border-radius: 3px;
+    border: 1px solid #e9ecef;
+    display: inline-block;
+    font-family: var(--font-family-sans-serif);
+    direction: ltr;
+    text-align: left;
+}
+
+/* استایل تقویم فارسی */
+.datepicker-container {
+    font-family: var(--font-family-sans-serif);
+    z-index: 9999 !important;
+}
+
+/* RTL برای تقویم فارسی */
+.datepicker-container .datepicker {
+    direction: rtl;
+}
+
+/* اصلاح استایل فیلدهای تاریخ */
+.form-group[data-fieldtype="Date"] input,
+.form-group[data-fieldtype="Datetime"] input {
+    direction: ltr;
+    text-align: left;
+}
+
+/* استایل بهتر برای فیلدهای تاریخ فعال */
+input[data-fieldtype="Date"].jalali-initialized,
+input[data-fieldtype="Datetime"].jalali-initialized,
+input[data-fieldtype="Date"].jalali-persian-initialized,
+input[data-fieldtype="Datetime"].jalali-persian-initialized {
+    background-color: #fff;
+    border: 1px solid #d1d8dd;
+    border-radius: 4px;
+    position: relative;
+}
+
+/* استایل responsive برای موبایل */
+@media (max-width: 768px) {
+    .datepicker-container {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 10000 !important;
+        max-width: 90vw;
+        max-height: 90vh;
+    }
+    
+    .gregorian-date, 
+    .gregorian-datetime {
+        font-size: 10px;
+        padding: 1px 3px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .gregorian-date, 
+    .gregorian-datetime {
+        background-color: #2d3748;
+        border-color: #4a5568;
+        color: #a0aec0;
+    }
+}
+
+/* اصلاح کلاس‌های پاکسازی */
+.datepicker-container .pwt-btn,
+.datepicker-container .btn {
+    font-family: var(--font-family-sans-serif);
+    border-radius: 3px;
+}
+
+/* استایل بهتر برای تقویم در محیط فراپه */
+.datepicker-container .datepicker-plot-area {
+    background-color: white;
+    border: 1px solid #d1d8dd;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* اصلاح فونت و spacing */
+.datepicker-container .datepicker-plot-area table {
+    font-family: var(--font-family-sans-serif);
+}
+
+.datepicker-container .datepicker-plot-area td,
+.datepicker-container .datepicker-plot-area th {
+    padding: 8px;
+    text-align: center;
+}
+
+/* استایل برای روزهای انتخاب شده */
+.datepicker-container .datepicker-plot-area .selected {
+    background-color: var(--primary-color, #5e72e4) !important;
+    color: white !important;
+    border-radius: 4px;
+}
+
+/* استایل برای روز امروز */
+.datepicker-container .datepicker-plot-area .today {
+    background-color: var(--orange-color, #ff9f43) !important;
+    color: white !important;
+    border-radius: 4px;
+}
+
+/* استایل برای هدر تقویم */
+.datepicker-container .datepicker-plot-area .datepicker-header {
+    background-color: var(--gray-100, #f8f9fa);
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* استایل برای دکمه‌های ناوبری */
+.datepicker-container .datepicker-plot-area .datepicker-nav {
+    padding: 5px;
+    margin: 2px;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.datepicker-container .datepicker-plot-area .datepicker-nav:hover {
+    background-color: var(--gray-100, #f8f9fa);
+}
+
+/* استایل برای timepicker */
+.datepicker-container .datepicker-plot-area .time-container {
+    border-top: 1px solid #dee2e6;
+    padding: 10px;
+    background-color: var(--gray-50, #f9f9f9);
+}
+
+.datepicker-container .datepicker-plot-area .time-container input {
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    padding: 5px;
+    text-align: center;
+    width: 60px;
+    margin: 0 5px;
+}
+
+/* بهبود نمایش در محیط ERPNext */
+.form-control.jalali-initialized:focus,
+.form-control.jalali-persian-initialized:focus {
+    border-color: var(--primary-color, #5e72e4);
+    box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25);
+}
+
+/* استایل برای فیلد غیرفعال */
+.form-control.jalali-initialized[disabled],
+.form-control.jalali-persian-initialized[disabled] {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+
+/* پنهان کردن تقویم پیش‌فرض در صورت تداخل */
+.frappe-control[data-fieldtype="Date"] .input-with-feedback::after,
+.frappe-control[data-fieldtype="Datetime"] .input-with-feedback::after {
+    display: none !important;
+}
+
+/* اصلاح برای فیلدهای داخل Grid/Table */
+.grid-row .form-control.jalali-initialized,
+.grid-row .form-control.jalali-persian-initialized {
+    font-size: 12px;
+}
+
+.grid-row .gregorian-date,
+.grid-row .gregorian-datetime {
+    font-size: 9px;
+    padding: 1px 2px;
+    margin-top: 2px;
+}
+
+/* استایل برای حالت readonly */
+.form-control.jalali-initialized[readonly],
+.form-control.jalali-persian-initialized[readonly] {
+    background-color: transparent;
+    border: none;
+    padding-left: 0;
+}
+
+/* بهبود برای فیلدهای فیلتر */
+.filter-field .form-control.jalali-initialized,
+.filter-field .form-control.jalali-persian-initialized {
+    font-size: 13px;
+}
+
+/* اصلاح z-index برای dialog ها */
+.modal .datepicker-container {
+    z-index: 10050 !important;
+}
+
+/* استایل برای حالت print */
+@media print {
+    .gregorian-date,
+    .gregorian-datetime {
+        display: none !important;
+    }
+    
+    .datepicker-container {
+        display: none !important;
+    }
+}
+
+/* بهبود accessibility */
+.datepicker-container [role="button"] {
+    cursor: pointer;
+}
+
+.datepicker-container [aria-selected="true"] {
+    background-color: var(--primary-color, #5e72e4) !important;
+    color: white !important;
+}
+
+/* Animation برای نمایش تقویم */
+.datepicker-container {
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

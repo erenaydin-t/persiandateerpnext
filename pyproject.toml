@@ -1,0 +1,42 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "persiandateerpnext"
+version = "1.0.0"
+description = "A comprehensive solution to convert ERPNext date and datetime fields to Shamsi (Jalali) Calendar"
+authors = [
+    {name = "ErenAydin", email = "ccccc@gmail.com"}
+]
+dependencies = [
+    "frappe",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["erpnext", "frappe", "jalali", "shamsi", "persian", "calendar", "datepicker"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: Frappe",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/erenaydin-t/persiandateerpnext"
+Repository = "https://github.com/erenaydin-t/persiandateerpnext.git"
+Documentation = "https://github.com/erenaydin-t/persiandateerpnext#readme"
+"Bug Tracker" = "https://github.com/erenaydin-t/persiandateerpnext/issues"
+
+[tool.bench.frappe]
+apps = ["persiandateerpnext"]

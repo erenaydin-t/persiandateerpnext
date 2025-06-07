@@ -1,0 +1,41 @@
+{
+    "name": "persiandateerpnext",
+    "version": "1.0.0",
+    "title": "Persian Date ERPNext",
+    "description": "A comprehensive solution to convert ERPNext date and datetime fields to Shamsi (Jalali) Calendar",
+    "author": "Eren Aydin",
+    "email": "cccc@gmail.com",
+    "license": "MIT",
+    "homepage": "https://github.com/erenaydin-t/persiandateerpnext",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/erenaydin-t/persiandateerpnext.git"
+    },
+    "keywords": [
+        "erpnext",
+        "frappe",
+        "jalali",
+        "shamsi",
+        "persian",
+        "calendar",
+        "datepicker"
+    ],
+    "engines": {
+        "frappe": ">=15.0.0",
+        "erpnext": ">=15.64.1"
+    },
+    "dependencies": {
+        "frappe": ">=15.0.0",
+        "erpnext": ">=15.64.1"
+    },
+    "category": "Customization",
+    "compatibility": {
+        "frappe": ["15.x"],
+        "erpnext": ["15.x"]
+    },
+    "screenshots": [],
+    "support": {
+        "issues": "https://github.com/erenaydin-t/persiandateerpnext/issues",
+        "email": "cccc@gmail.com"
+    }
+}
