@@ -40,13 +40,13 @@ A comprehensive solution to convert ERPNext date and datetime fields to Shamsi (
 
 ## Installation | نصب
 
-### Method 1: Using Bench (Recommended)
+### Method 1: Standard Bench Installation
 
 ```bash
 # Navigate to your bench directory
 cd /path/to/your/bench
 
-# Get the app from GitHub (latest v1.0.3)
+# Get the app from GitHub (latest v1.0.8)
 bench get-app https://github.com/erenaydin-t/persiandateerpnext.git
 
 # Install the app on your site
@@ -63,6 +63,42 @@ bench --site [your-site-name] clear-cache
 
 # Restart bench
 bench restart
+```
+
+### Method 2: Docker Installation
+
+```bash
+# پیدا کردن backend container
+BACKEND_CONTAINER=$(docker ps | grep backend | awk '{print $1}')
+
+# ورود به کانتینر
+docker exec -it $BACKEND_CONTAINER bash
+
+# داخل کانتینر - نصب app
+cd /home/frappe/frappe-bench
+bench get-app https://github.com/erenaydin-t/persiandateerpnext.git
+bench --site frontend install-app persiandateerpnext
+bench --site frontend migrate
+bench build --app persiandateerpnext --force
+bench --site frontend clear-cache
+exit
+
+# خارج از کانتینر - restart سرویس‌ها
+docker service update --force pwd_backend
+docker service update --force pwd_frontend
+```
+
+### Method 3: Docker with Script
+
+```bash
+# دانلود اسکریپت خودکار
+wget -O docker_install.sh https://raw.githubusercontent.com/erenaydin-t/persiandateerpnext/main/scripts/docker_install.sh
+chmod +x docker_install.sh
+./docker_install.sh
+
+# یا از مسیر local
+cd /path/to/persiandateerpnext
+./scripts/docker_install.sh
 ```
 
 ### ⚠️ اگر مشکل Assets یا کانفلیکت دارید:
@@ -111,9 +147,65 @@ Open browser console (F12) and look for these messages:
 
 ### ⚠️ اگر Persian datepicker نمایش داده نمی‌شود:
 
+#### For Standard Installation:
 1. **برای راه‌حل کامل**: [TROUBLESHOOTING.md](TROUBLESHOOTING.md) را مطالعه کنید
-2. **فوری**: نسخه v1.0.3 را نصب کنید که مشکل assets حل شده
+2. **فوری**: نسخه v1.0.8 را نصب کنید که مشکل assets حل شده
 3. **چک کنید**: Browser console برای error های JavaScript
+
+#### For Docker Installation:
+```bash
+# 1. بررسی 404 errors
+docker exec $(docker ps | grep backend | awk '{print $1}') ls -la /home/frappe/frappe-bench/sites/assets/persiandateerpnext/
+
+# 2. حل مشکل assets
+./fix_docker_assets.sh
+
+# 3. Manual asset copy
+BACKEND_CONTAINER=$(docker ps | grep backend | awk '{print $1}')
+docker exec $BACKEND_CONTAINER bash -c "
+cd /home/frappe/frappe-bench
+mkdir -p sites/assets/persiandateerpnext/{css,js}
+cp apps/persiandateerpnext/persiandateerpnext/public/css/*.css sites/assets/persiandateerpnext/css/
+cp apps/persiandateerpnext/persiandateerpnext/public/js/*.js sites/assets/persiandateerpnext/js/
+cat sites/assets/persiandateerpnext/css/*.css > sites/assets/persiandateerpnext/css/persiandateerpnext.bundle.css
+cat sites/assets/persiandateerpnext/js/*.js > sites/assets/persiandateerpnext/js/persiandateerpnext.bundle.js
+bench --site frontend clear-cache
+"
+docker service update --force pwd_frontend
+```
+
+### Uninstall | حذف
+
+#### Standard Installation:
+```bash
+cd /path/to/your/bench
+bench --site [your-site-name] uninstall-app persiandateerpnext --yes
+bench remove-app persiandateerpnext
+rm -rf apps/persiandateerpnext
+bench build --hard-link
+bench --site [your-site-name] clear-cache
+bench restart
+```
+
+#### Docker Installation:
+```bash
+# ورود به کانتینر
+BACKEND_CONTAINER=$(docker ps | grep backend | awk '{print $1}')
+docker exec -it $BACKEND_CONTAINER bash
+
+# حذف app
+cd /home/frappe/frappe-bench
+bench --site frontend uninstall-app persiandateerpnext --yes
+bench remove-app persiandateerpnext
+rm -rf apps/persiandateerpnext
+rm -rf sites/assets/persiandateerpnext
+bench --site frontend clear-cache
+exit
+
+# restart سرویس‌ها
+docker service update --force pwd_backend
+docker service update --force pwd_frontend
+```
 
 ### Quick Fix:
 ```bash
