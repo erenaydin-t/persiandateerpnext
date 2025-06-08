@@ -32,7 +32,7 @@ def after_install():
                 </p>
                 <hr style='margin: 20px 0;'>
                 <p style='color: #666; font-size: 12px;'>
-                    Persian Date ERPNext v1.0.4<br>
+                    Persian Date ERPNext v1.0.5<br>
                     با ❤️ برای جامعه فارسی ERPNext ساخته شده
                 </p>
             </div>
@@ -62,8 +62,11 @@ def after_migrate():
         copy_assets_manually()
         print("✅ Persian Date ERPNext assets re-copied after migration")
     except Exception as e:
-        frappe.log_error(f"Error copying assets after migration: {str(e)}")
-        print(f"⚠️ Asset copy warning: {str(e)}")
+        # Don't fail migration for asset copy issues
+        print(f"⚠️ Asset copy info: {str(e)}")
+        # Only log critical errors, not file already exists errors
+        if "are the same file" not in str(e):
+            frappe.log_error(f"Persian Date ERPNext asset copy issue: {str(e)[:100]}...")
 
 def copy_assets_manually():
     """Manually copy assets to ensure they're available"""
@@ -90,10 +93,27 @@ def copy_assets_manually():
         if os.path.exists(css_source):
             for file in os.listdir(css_source):
                 if file.endswith(('.css', '.min.css')):
-                    shutil.copy2(
-                        os.path.join(css_source, file),
-                        os.path.join(css_target, file)
-                    )
+                    src_file = os.path.join(css_source, file)
+                    dst_file = os.path.join(css_target, file)
+                    
+                    # Skip if files are the same (symlink or already copied)
+                    try:
+                        if os.path.samefile(src_file, dst_file):
+                            print(f"📄 CSS already linked: {file}")
+                            continue
+                    except OSError:
+                        # Files don't exist or can't be compared, proceed with copy
+                        pass
+                        
+                    # Skip if destination exists and is newer
+                    if os.path.exists(dst_file):
+                        src_mtime = os.path.getmtime(src_file)
+                        dst_mtime = os.path.getmtime(dst_file)
+                        if dst_mtime >= src_mtime:
+                            print(f"📄 CSS up to date: {file}")
+                            continue
+                    
+                    shutil.copy2(src_file, dst_file)
                     print(f"📄 Copied CSS: {file}")
         
         # Copy JS files
@@ -103,10 +123,27 @@ def copy_assets_manually():
         if os.path.exists(js_source):
             for file in os.listdir(js_source):
                 if file.endswith(('.js', '.min.js')) and not file.endswith('.deleted'):
-                    shutil.copy2(
-                        os.path.join(js_source, file),
-                        os.path.join(js_target, file)
-                    )
+                    src_file = os.path.join(js_source, file)
+                    dst_file = os.path.join(js_target, file)
+                    
+                    # Skip if files are the same (symlink or already copied)
+                    try:
+                        if os.path.samefile(src_file, dst_file):
+                            print(f"📄 JS already linked: {file}")
+                            continue
+                    except OSError:
+                        # Files don't exist or can't be compared, proceed with copy
+                        pass
+                        
+                    # Skip if destination exists and is newer
+                    if os.path.exists(dst_file):
+                        src_mtime = os.path.getmtime(src_file)
+                        dst_mtime = os.path.getmtime(dst_file)
+                        if dst_mtime >= src_mtime:
+                            print(f"📄 JS up to date: {file}")
+                            continue
+                    
+                    shutil.copy2(src_file, dst_file)
                     print(f"📄 Copied JS: {file}")
         
         print("✅ All assets copied manually to sites/assets/persiandateerpnext/")
