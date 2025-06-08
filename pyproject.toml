@@ -4,10 +4,10 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "persiandateerpnext"
-version = "1.0.0"
+version = "1.0.1"
 description = "A comprehensive solution to convert ERPNext date and datetime fields to Shamsi (Jalali) Calendar"
 authors = [
-    {name = "ErenAydin", email = "ccccc@gmail.com"}
+    {name = "Ideenemium", email = "ideenemium@gmail.com"}
 ]
 dependencies = [
     "frappe",

@@ -1,10 +1,10 @@
 app_name = "persiandateerpnext"
 app_title = "Persian Date ERPNext"
-app_publisher = "ErenAydin"
+app_publisher = "Ideenemium"
 app_description = "A comprehensive solution to convert ERPNext date and datetime fields to Shamsi (Jalali) Calendar"
-app_email = "cccc@gmail.com"
+app_email = "ideenemium@gmail.com"
 app_license = "MIT"
-app_version = "1.0.0"
+app_version = "1.0.1"
 
 # Required app for ERPNext
 required_apps = ["erpnext"]

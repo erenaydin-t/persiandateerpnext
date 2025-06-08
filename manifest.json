@@ -1,10 +1,10 @@
 {
     "name": "persiandateerpnext",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "title": "Persian Date ERPNext",
     "description": "A comprehensive solution to convert ERPNext date and datetime fields to Shamsi (Jalali) Calendar",
-    "author": "Eren Aydin",
-    "email": "cccc@gmail.com",
+    "author": "Ideenemium",
+    "email": "ideenemium@gmail.com",
     "license": "MIT",
     "homepage": "https://github.com/erenaydin-t/persiandateerpnext",
     "repository": {

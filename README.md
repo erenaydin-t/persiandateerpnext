@@ -1,4 +1,4 @@
-# Persian Date ERPNext 
+# Persian Date ERPNext
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![ERPNext](https://img.shields.io/badge/ERPNext-15.64.1+-blue.svg)](https://github.com/frappe/erpnext)
@@ -142,10 +142,10 @@ Once enabled, all date and datetime fields throughout ERPNext will automatically
 persiandateerpnext/
 ├── persiandateerpnext/
 │   ├── config/
-│   │   └── __init__.py
 │   ├── fixtures/
-│   │   ├── custom_field.json      # System Settings custom fields
-│   │   └── __init__.py
+│   │   └── custom_field.json      # System Settings custom fields
+│   ├── persian_date_erpnext/       # Main module
+│   │   └── doctype/
 │   ├── public/
 │   │   ├── css/
 │   │   │   ├── custom.css         # Custom styling
@@ -159,8 +159,7 @@ persiandateerpnext/
 │   ├── templates/
 │   ├── hooks.py                   # App configuration
 │   ├── modules.txt
-│   ├── patches.txt
-│   └── __init__.py
+│   └── patches.txt
 ├── pyproject.toml                 # Python package configuration
 ├── README.md
 ├── LICENSE
@@ -194,7 +193,18 @@ The app integrates with ERPNext forms through:
 
 ### Common Issues
 
-#### 1. Datepicker Not Showing
+#### 1. Module not found error
+If you encounter "No module named 'persiandateerpnext.persian_date_erpnext'" error during installation:
+
+```bash
+# This is resolved in the latest version
+# If it persists, try:
+bench --site [site-name] uninstall-app persiandateerpnext
+bench get-app https://github.com/erenaydin-t/persiandateerpnext.git --force
+bench --site [site-name] install-app persiandateerpnext
+```
+
+#### 2. Datepicker Not Showing
 ```bash
 # Clear cache and rebuild
 bench --site [site-name] clear-cache
@@ -202,16 +212,16 @@ bench build --app persiandateerpnext
 bench restart
 ```
 
-#### 2. Persian Fonts Not Loading
+#### 3. Persian Fonts Not Loading
 - Ensure your browser supports Persian fonts
 - Check CSS files are loading correctly in browser developer tools
 
-#### 3. Date Conversion Issues
+#### 4. Date Conversion Issues
 - Verify System Settings configuration
 - Check browser console for JavaScript errors
 - Ensure all required JS libraries are loaded
 
-#### 4. Installation Errors
+#### 5. Installation Errors
 ```bash
 # Check app installation status
 bench --site [site-name] list-apps
@@ -287,9 +297,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support | پشتیبانی
 
 - **GitHub Issues**: [Report bugs or request features](https://github.com/erenaydin-t/persiandateerpnext/issues)
+- **Email**: ideenemium@gmail.com
 - **Documentation**: This README file
 
 ## Changelog | تغییرات
+
+### Version 1.0.1
+- 🐛 Fixed module structure for proper installation
+- ✨ Added persian_date_erpnext module directory
+- 📚 Updated installation troubleshooting guide
 
 ### Version 1.0.0
 - ✨ Initial release
