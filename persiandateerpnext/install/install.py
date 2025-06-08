@@ -32,7 +32,7 @@ def after_install():
                 </p>
                 <hr style='margin: 20px 0;'>
                 <p style='color: #666; font-size: 12px;'>
-                    Persian Date ERPNext v1.0.6<br>
+                    Persian Date ERPNext v1.0.7<br>
                     با ❤️ برای جامعه فارسی ERPNext ساخته شده
                 </p>
             </div>
@@ -102,66 +102,66 @@ def copy_persiandateerpnext_assets(bench_path):
     # Create target directories
     os.makedirs(os.path.join(assets_path, "css"), exist_ok=True)
     os.makedirs(os.path.join(assets_path, "js"), exist_ok=True)
-        
-        # Copy CSS files
-        css_source = os.path.join(app_public_path, "css")
-        css_target = os.path.join(assets_path, "css")
-        
-        if os.path.exists(css_source):
-            for file in os.listdir(css_source):
-                if file.endswith(('.css', '.min.css')):
-                    src_file = os.path.join(css_source, file)
-                    dst_file = os.path.join(css_target, file)
+    
+    # Copy CSS files
+    css_source = os.path.join(app_public_path, "css")
+    css_target = os.path.join(assets_path, "css")
+    
+    if os.path.exists(css_source):
+        for file in os.listdir(css_source):
+            if file.endswith(('.css', '.min.css')):
+                src_file = os.path.join(css_source, file)
+                dst_file = os.path.join(css_target, file)
+                
+                # Skip if files are the same (symlink or already copied)
+                try:
+                    if os.path.samefile(src_file, dst_file):
+                        print(f"📄 CSS already linked: {file}")
+                        continue
+                except OSError:
+                    # Files don't exist or can't be compared, proceed with copy
+                    pass
                     
-                    # Skip if files are the same (symlink or already copied)
-                    try:
-                        if os.path.samefile(src_file, dst_file):
-                            print(f"📄 CSS already linked: {file}")
-                            continue
-                    except OSError:
-                        # Files don't exist or can't be compared, proceed with copy
-                        pass
-                        
-                    # Skip if destination exists and is newer
-                    if os.path.exists(dst_file):
-                        src_mtime = os.path.getmtime(src_file)
-                        dst_mtime = os.path.getmtime(dst_file)
-                        if dst_mtime >= src_mtime:
-                            print(f"📄 CSS up to date: {file}")
-                            continue
+                # Skip if destination exists and is newer
+                if os.path.exists(dst_file):
+                    src_mtime = os.path.getmtime(src_file)
+                    dst_mtime = os.path.getmtime(dst_file)
+                    if dst_mtime >= src_mtime:
+                        print(f"📄 CSS up to date: {file}")
+                        continue
+                
+                shutil.copy2(src_file, dst_file)
+                print(f"📄 Copied CSS: {file}")
+    
+    # Copy JS files
+    js_source = os.path.join(app_public_path, "js")
+    js_target = os.path.join(assets_path, "js")
+    
+    if os.path.exists(js_source):
+        for file in os.listdir(js_source):
+            if file.endswith(('.js', '.min.js')) and not file.endswith('.deleted'):
+                src_file = os.path.join(js_source, file)
+                dst_file = os.path.join(js_target, file)
+                
+                # Skip if files are the same (symlink or already copied)
+                try:
+                    if os.path.samefile(src_file, dst_file):
+                        print(f"📄 JS already linked: {file}")
+                        continue
+                except OSError:
+                    # Files don't exist or can't be compared, proceed with copy
+                    pass
                     
-                    shutil.copy2(src_file, dst_file)
-                    print(f"📄 Copied CSS: {file}")
-        
-        # Copy JS files
-        js_source = os.path.join(app_public_path, "js")
-        js_target = os.path.join(assets_path, "js")
-        
-        if os.path.exists(js_source):
-            for file in os.listdir(js_source):
-                if file.endswith(('.js', '.min.js')) and not file.endswith('.deleted'):
-                    src_file = os.path.join(js_source, file)
-                    dst_file = os.path.join(js_target, file)
-                    
-                    # Skip if files are the same (symlink or already copied)
-                    try:
-                        if os.path.samefile(src_file, dst_file):
-                            print(f"📄 JS already linked: {file}")
-                            continue
-                    except OSError:
-                        # Files don't exist or can't be compared, proceed with copy
-                        pass
-                        
-                    # Skip if destination exists and is newer
-                    if os.path.exists(dst_file):
-                        src_mtime = os.path.getmtime(src_file)
-                        dst_mtime = os.path.getmtime(dst_file)
-                        if dst_mtime >= src_mtime:
-                            print(f"📄 JS up to date: {file}")
-                            continue
-                    
-                    shutil.copy2(src_file, dst_file)
-                    print(f"📄 Copied JS: {file}")
+                # Skip if destination exists and is newer
+                if os.path.exists(dst_file):
+                    src_mtime = os.path.getmtime(src_file)
+                    dst_mtime = os.path.getmtime(dst_file)
+                    if dst_mtime >= src_mtime:
+                        print(f"📄 JS up to date: {file}")
+                        continue
+                
+                shutil.copy2(src_file, dst_file)
+                print(f"📄 Copied JS: {file}")
 
 def copy_core_assets(bench_path):
     """Copy ERPNext core assets to fix RTL and other missing files"""
@@ -184,15 +184,6 @@ def copy_core_assets(bench_path):
                 print(f"📄 Copied {app} core assets")
             except Exception as e:
                 print(f"⚠️ Warning copying {app} assets: {str(e)}")
-        
-        print("✅ All assets copied manually to sites/assets/")
-        
-        # Verify copy was successful
-        verify_assets_copied(bench_path)
-        
-    except Exception as e:
-        print(f"❌ Manual asset copy failed: {str(e)}")
-        raise
 
 def verify_assets_copied(bench_path):
     """Verify that all required assets are present"""

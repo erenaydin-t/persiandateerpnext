@@ -4,7 +4,7 @@ app_publisher = "Ideenemium"
 app_description = "A comprehensive solution to convert ERPNext date and datetime fields to Shamsi (Jalali) Calendar"
 app_email = "ideenemium@gmail.com"
 app_license = "MIT"
-app_version = "1.0.6"
+app_version = "1.0.7"
 
 # Required app for ERPNext
 required_apps = ["erpnext"]
