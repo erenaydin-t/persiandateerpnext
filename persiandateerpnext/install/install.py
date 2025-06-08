@@ -26,7 +26,7 @@ def after_install():
                 </p>
                 <hr style='margin: 20px 0;'>
                 <p style='color: #666; font-size: 12px;'>
-                    Persian Date ERPNext v1.0.2<br>
+                    Persian Date ERPNext v1.0.3<br>
                     با ❤️ برای جامعه فارسی ERPNext ساخته شده
                 </p>
             </div>

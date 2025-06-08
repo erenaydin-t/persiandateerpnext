@@ -1,6 +1,6 @@
 {
     "name": "persiandateerpnext",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "title": "Persian Date ERPNext",
     "description": "A comprehensive solution to convert ERPNext date and datetime fields to Shamsi (Jalali) Calendar",
     "author": "Ideenemium",

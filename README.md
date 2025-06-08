@@ -8,6 +8,9 @@ A comprehensive solution to convert ERPNext date and datetime fields to Shamsi (
 
 اپلیکیشن جامع برای تبدیل فیلدهای تاریخ و تاریخ-ساعت ERPNext به تقویم شمسی (جلالی). این برنامه به طور یکپارچه با تمام فیلدهای تاریخ در ERPNext کار می‌کند و تجربه تقویم فارسی بومی را فراهم می‌آورد.
 
+## 🚨 مشکل Assets Loading دارید؟
+**راه‌حل فوری**: مراجعه کنید به [TROUBLESHOOTING.md](TROUBLESHOOTING.md) برای حل مشکل کامل گام به گام!
+
 ## Features | ویژگی‌ها
 
 ### 🗓️ Complete Calendar Integration
@@ -43,7 +46,7 @@ A comprehensive solution to convert ERPNext date and datetime fields to Shamsi (
 # Navigate to your bench directory
 cd /path/to/your/bench
 
-# Get the app from GitHub
+# Get the app from GitHub (latest v1.0.3)
 bench get-app https://github.com/erenaydin-t/persiandateerpnext.git
 
 # Install the app on your site
@@ -52,8 +55,8 @@ bench --site [your-site-name] install-app persiandateerpnext
 # Run migrations to install custom fields
 bench --site [your-site-name] migrate
 
-# Build assets and bundles
-bench build --app persiandateerpnext
+# Build assets with force flag
+bench build --app persiandateerpnext --force
 
 # Clear cache
 bench --site [your-site-name] clear-cache
@@ -62,38 +65,17 @@ bench --site [your-site-name] clear-cache
 bench restart
 ```
 
-### Method 2: Manual Installation
+### 🚨 اگر مشکل Assets دارید:
 
 ```bash
-# Clone the repository
-git clone https://github.com/erenaydin-t/persiandateerpnext.git
-
-# Move to apps directory
-mv persiandateerpnext /path/to/your/bench/apps/
-
-# Install the app
-bench --site [your-site-name] install-app persiandateerpnext
-
-# Run migrations
-bench --site [your-site-name] migrate
-
-# Build and restart
-bench build
+# Complete reinstall process:
+bench --site [site-name] uninstall-app persiandateerpnext
+bench remove-app persiandateerpnext
+bench get-app https://github.com/erenaydin-t/persiandateerpnext.git
+bench --site [site-name] install-app persiandateerpnext
+bench --site [site-name] migrate
+bench build --app persiandateerpnext --force
 bench restart
-```
-
-### Method 3: Development Installation
-
-```bash
-# Clone for development
-git clone https://github.com/erenaydin-t/persiandateerpnext.git
-cd persiandateerpnext
-
-# Install in development mode
-bench --site [your-site-name] install-app persiandateerpnext --dev
-
-# Build assets
-bench build --app persiandateerpnext
 ```
 
 ## Configuration | پیکربندی
@@ -103,22 +85,44 @@ bench build --app persiandateerpnext
 1. Login to your ERPNext site as Administrator
 2. Go to **Settings → System Settings**
 3. Find **"Enable Shamsi (Jalali) Calendar"** checkbox
-4. Check the box to enable Jalali calendar
+4. Check the box to enable Jalali calendar ✅
 5. Select **Date Storage Format**:
    - **Gregorian (میلادی)**: Stores dates in Gregorian format (recommended for compatibility)
    - **Persian (شمسی)**: Stores dates in Persian format
 6. Save the settings
+7. **Refresh your browser** (Ctrl+F5)
 
-### 2. Clear Cache
+### 2. Verify Installation
 
-```bash
-bench --site [your-site-name] clear-cache
-bench --site [your-site-name] clear-website-cache
+Open browser console (F12) and look for these messages:
+```
+🔍 Persian Date ERPNext Debug Check
+✅ Persian Date library loaded
+✅ Persian Datepicker library loaded
+✅ Shamsi Calendar is ENABLED
+📅 Storage Format: Gregorian
+✅ Persian Datepicker CSS loaded
 ```
 
-### 3. Reload Browser
+## Troubleshooting | عیب‌یابی
 
-Refresh your browser to see the Jalali datepicker in action!
+### ⚠️ اگر Persian datepicker نمایش داده نمی‌شود:
+
+1. **برای راه‌حل کامل**: [TROUBLESHOOTING.md](TROUBLESHOOTING.md) را مطالعه کنید
+2. **فوری**: نسخه v1.0.3 را نصب کنید که مشکل assets حل شده
+3. **چک کنید**: Browser console برای error های JavaScript
+
+### Quick Fix:
+```bash
+# Force rebuild everything:
+bench build --app persiandateerpnext --force
+bench --site [site-name] clear-cache
+bench restart
+
+# Check assets exist:
+ls -la sites/assets/persiandateerpnext/css/
+ls -la sites/assets/persiandateerpnext/js/
+```
 
 ## Usage | نحوه استفاده
 
@@ -139,200 +143,19 @@ Once enabled, all date and datetime fields throughout ERPNext will automatically
 - **Compatibility**: Full compatibility with existing ERPNext features
 - **Reports**: All reports work without modification
 
-#### Persian Storage Mode
-- **Frontend**: Displays Jalali dates to users  
-- **Backend**: Stores Persian dates in database
-- **Use Case**: When you need Persian dates in reports
-- **Note**: May require custom report modifications
-
-## File Structure | ساختار فایل‌ها
-
-```
-persiandateerpnext/
-├── persiandateerpnext/
-│   ├── config/
-│   ├── fixtures/
-│   │   └── custom_field.json      # System Settings custom fields
-│   ├── install/
-│   │   └── install.py             # Installation hooks
-│   ├── persian_date_erpnext/       # Main module
-│   │   └── doctype/
-│   ├── public/
-│   │   ├── bundle.json            # Asset bundling configuration
-│   │   ├── css/
-│   │   │   ├── custom.css         # Custom styling
-│   │   │   └── persian-datepicker.min.css
-│   │   └── js/
-│   │       ├── in_words_cleanup.js    # Removes "Only" suffix
-│   │       ├── persian-date.min.js    # Persian date library
-│   │       ├── persian-datepicker.min.js
-│   │       ├── togregorian_date.js    # Gregorian storage mode
-│   │       └── topersian_date.js      # Persian storage mode
-│   ├── templates/
-│   ├── hooks.py                   # App configuration
-│   ├── modules.txt
-│   └── patches.txt
-├── pyproject.toml                 # Python package configuration
-├── README.md
-├── LICENSE
-└── __init__.py
-```
-
-## Technical Details | جزئیات فنی
-
-### JavaScript Libraries Used
-
-- **persian-date.js**: Core Persian date manipulation library
-- **persian-datepicker.js**: Beautiful Persian datepicker UI component
-- **Custom integration scripts**: Handle ERPNext form lifecycle
-
-### Custom Fields Added
-
-The app automatically adds these custom fields to System Settings:
-
-1. **Enable Shamsi (Jalali) Calendar** (Check): Master enable/disable switch
-2. **Date Storage Format** (Select): Choose between Gregorian/Persian storage
-
-### Form Integration
-
-The app integrates with ERPNext forms through:
-
-- **form-load events**: Initialize datepickers on form load
-- **form-refresh events**: Re-initialize after form updates
-- **before_save hooks**: Convert dates before saving (in Gregorian mode)
-
-## Troubleshooting | عیب‌یابی
-
-### Common Issues
-
-#### 1. Module not found error
-If you encounter "No module named 'persiandateerpnext.persian_date_erpnext'" error during installation:
-
-```bash
-# This is resolved in the latest version
-# If it persists, try:
-bench --site [site-name] uninstall-app persiandateerpnext
-bench get-app https://github.com/erenaydin-t/persiandateerpnext.git --force
-bench --site [site-name] install-app persiandateerpnext
-bench --site [site-name] migrate
-```
-
-#### 2. Assets not loading (CSS/JS not working)
-```bash
-# Build assets with force flag
-bench build --app persiandateerpnext --force
-
-# Clear all caches
-bench --site [site-name] clear-cache
-bench --site [site-name] clear-website-cache
-
-# Restart bench
-bench restart
-
-# Check if bundle files exist
-ls -la sites/assets/persiandateerpnext/
-```
-
-#### 3. Datepicker Not Showing
-- Ensure System Settings are configured correctly
-- Check browser console for JavaScript errors
-- Verify that all required JS libraries are loaded
-- Clear browser cache
-
-#### 4. Persian Fonts Not Loading
-- Ensure your browser supports Persian fonts
-- Check CSS files are loading correctly in browser developer tools
-
-#### 5. Date Conversion Issues
-- Verify System Settings configuration
-- Check browser console for JavaScript errors
-- Ensure all required JS libraries are loaded
-
-#### 6. Installation Errors
-```bash
-# Check app installation status
-bench --site [site-name] list-apps
-
-# Complete reinstall if necessary
-bench --site [site-name] uninstall-app persiandateerpnext
-bench remove-app persiandateerpnext
-bench get-app https://github.com/erenaydin-t/persiandateerpnext.git
-bench --site [site-name] install-app persiandateerpnext
-bench --site [site-name] migrate
-bench build --app persiandateerpnext
-bench restart
-```
-
-### Debug Mode
-
-Enable debug mode to see detailed console logs:
-
-```javascript
-// Add this to browser console
-localStorage.setItem('persian_debug', 'true');
-```
-
-## Development | توسعه
-
-### Setting Up Development Environment
-
-```bash
-# Clone repository
-git clone https://github.com/erenaydin-t/persiandateerpnext.git
-cd persiandateerpnext
-
-# Install in development mode
-bench get-app .
-bench --site development.localhost install-app persiandateerpnext
-
-# Start development
-bench start
-```
-
-### Building for Production
-
-```bash
-# Build production assets
-bench build --app persiandateerpnext --production
-
-# Create production bundle
-bench bundle-app persiandateerpnext
-```
-
-### Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Compatibility | سازگاری
-
-### ERPNext Versions
-- ✅ ERPNext 15.64.1+
-- ✅ ERPNext 15.x (latest)
-- ❓ ERPNext 14.x (may work but not tested)
-- ❌ ERPNext 13.x and below
-
-### Browsers
-- ✅ Chrome 90+
-- ✅ Firefox 88+
-- ✅ Safari 14+
-- ✅ Edge 90+
-- ❌ Internet Explorer (not supported)
-
-## License | مجوز
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Support | پشتیبانی
 
-- **GitHub Issues**: [Report bugs or request features](https://github.com/erenaydin-t/persiandateerpnext/issues)
-- **Email**: ideenemium@gmail.com
-- **Documentation**: This README file
+- **🔧 Troubleshooting**: [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+- **🐛 GitHub Issues**: [Report bugs](https://github.com/erenaydin-t/persiandateerpnext/issues)
+- **📧 Email**: ideenemium@gmail.com
 
 ## Changelog | تغییرات
+
+### Version 1.0.3 (Current)
+- 🔧 **Fix**: Simplified assets loading with legacy method for better compatibility
+- 📦 **Add**: Debug script to troubleshoot assets loading
+- 📚 **Add**: TROUBLESHOOTING.md guide with step-by-step solutions
+- 🎯 **Improve**: More reliable installation process with better error handling
 
 ### Version 1.0.2
 - 🐛 **Fix**: Asset bundling and loading issues
@@ -352,13 +175,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ✨ Complete form integration
 - ✨ Automatic System Settings configuration
 - ✨ Production-ready code quality
-
-## Acknowledgments | قدردانی
-
-- [Persian Date Library](https://github.com/babakhani/PersianDate) for core date functionality
-- [Persian Datepicker](https://github.com/babakhani/pwt.datepicker) for the beautiful UI component
-- ERPNext community for the amazing framework
-- All contributors who helped improve this project
 
 ---
 
