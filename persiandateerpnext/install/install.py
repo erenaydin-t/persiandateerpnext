@@ -32,7 +32,7 @@ def after_install():
                 </p>
                 <hr style='margin: 20px 0;'>
                 <p style='color: #666; font-size: 12px;'>
-                    Persian Date ERPNext v1.0.5<br>
+                    Persian Date ERPNext v1.0.6<br>
                     با ❤️ برای جامعه فارسی ERPNext ساخته شده
                 </p>
             </div>
@@ -76,15 +76,32 @@ def copy_assets_manually():
         # Get bench path
         bench_path = frappe.utils.get_bench_path()
         
-        # Source paths
-        app_public_path = os.path.join(bench_path, "apps", "persiandateerpnext", "persiandateerpnext", "public")
+        # Copy Persian Date ERPNext assets
+        copy_persiandateerpnext_assets(bench_path)
         
-        # Target paths
-        assets_path = os.path.join(bench_path, "sites", "assets", "persiandateerpnext")
+        # Also ensure ERPNext core assets are copied (fix for RTL issue)
+        copy_core_assets(bench_path)
         
-        # Create target directories
-        os.makedirs(os.path.join(assets_path, "css"), exist_ok=True)
-        os.makedirs(os.path.join(assets_path, "js"), exist_ok=True)
+        print("✅ All assets copied manually to sites/assets/")
+        
+        # Verify copy was successful
+        verify_assets_copied(bench_path)
+        
+    except Exception as e:
+        print(f"❌ Manual asset copy failed: {str(e)}")
+        raise
+
+def copy_persiandateerpnext_assets(bench_path):
+    """Copy Persian Date ERPNext specific assets"""
+    # Source paths
+    app_public_path = os.path.join(bench_path, "apps", "persiandateerpnext", "persiandateerpnext", "public")
+    
+    # Target paths
+    assets_path = os.path.join(bench_path, "sites", "assets", "persiandateerpnext")
+    
+    # Create target directories
+    os.makedirs(os.path.join(assets_path, "css"), exist_ok=True)
+    os.makedirs(os.path.join(assets_path, "js"), exist_ok=True)
         
         # Copy CSS files
         css_source = os.path.join(app_public_path, "css")
@@ -145,21 +162,45 @@ def copy_assets_manually():
                     
                     shutil.copy2(src_file, dst_file)
                     print(f"📄 Copied JS: {file}")
+
+def copy_core_assets(bench_path):
+    """Copy ERPNext core assets to fix RTL and other missing files"""
+    core_apps = ['frappe', 'erpnext']
+    
+    for app in core_apps:
+        app_dist_path = os.path.join(bench_path, "apps", app, app, "public", "dist")
+        target_dist_path = os.path.join(bench_path, "sites", "assets", app, "dist")
         
-        print("✅ All assets copied manually to sites/assets/persiandateerpnext/")
+        if os.path.exists(app_dist_path):
+            # Create target directories
+            os.makedirs(os.path.join(target_dist_path, "css"), exist_ok=True)
+            os.makedirs(os.path.join(target_dist_path, "css-rtl"), exist_ok=True) 
+            os.makedirs(os.path.join(target_dist_path, "js"), exist_ok=True)
+            
+            try:
+                # Copy all dist contents
+                import distutils.dir_util
+                distutils.dir_util.copy_tree(app_dist_path, target_dist_path)
+                print(f"📄 Copied {app} core assets")
+            except Exception as e:
+                print(f"⚠️ Warning copying {app} assets: {str(e)}")
+        
+        print("✅ All assets copied manually to sites/assets/")
         
         # Verify copy was successful
-        verify_assets_copied(assets_path)
+        verify_assets_copied(bench_path)
         
     except Exception as e:
         print(f"❌ Manual asset copy failed: {str(e)}")
         raise
 
-def verify_assets_copied(assets_path):
+def verify_assets_copied(bench_path):
     """Verify that all required assets are present"""
+    # Persian Date ERPNext assets
     required_css = ["persian-datepicker.min.css", "custom.css"]
     required_js = ["persian-date.min.js", "persian-datepicker.min.js", "togregorian_date.js", "topersian_date.js", "in_words_cleanup.js", "debug_check.js"]
     
+    assets_path = os.path.join(bench_path, "sites", "assets", "persiandateerpnext")
     css_path = os.path.join(assets_path, "css")
     js_path = os.path.join(assets_path, "js")
     
@@ -178,6 +219,23 @@ def verify_assets_copied(assets_path):
             print(f"✅ JS verified: {js_file}")
         else:
             print(f"❌ JS missing: {js_file}")
+    
+    # Check core ERPNext assets (samples)
+    core_checks = [
+        ("frappe", "css-rtl", "website.bundle.*"),
+        ("erpnext", "css-rtl", "erpnext-web.bundle.*")
+    ]
+    
+    for app, asset_type, pattern in core_checks:
+        asset_dir = os.path.join(bench_path, "sites", "assets", app, "dist", asset_type)
+        if os.path.exists(asset_dir):
+            files = [f for f in os.listdir(asset_dir) if pattern.replace("*", "") in f]
+            if files:
+                print(f"✅ {app} {asset_type} assets found")
+            else:
+                print(f"⚠️ {app} {asset_type} assets may be missing")
+        else:
+            print(f"⚠️ {app} {asset_type} directory not found")
 
 def before_uninstall():
     """Called before app uninstallation"""
