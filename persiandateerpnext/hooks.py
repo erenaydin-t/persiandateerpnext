@@ -4,7 +4,7 @@ app_publisher = "Ideenemium"
 app_description = "A comprehensive solution to convert ERPNext date and datetime fields to Shamsi (Jalali) Calendar"
 app_email = "ideenemium@gmail.com"
 app_license = "MIT"
-app_version = "1.0.1"
+app_version = "1.0.2"
 
 # Required app for ERPNext
 required_apps = ["erpnext"]
@@ -12,7 +12,7 @@ required_apps = ["erpnext"]
 # Apps to include for ERPNext compatibility  
 depends_on = ["frappe", "erpnext"]
 
-# Fixtures
+# Fixtures - automatically loaded during migrate
 fixtures = [
     {
         "doctype": "Custom Field", 
@@ -20,50 +20,44 @@ fixtures = [
     }
 ]
 
-# Include JS/CSS files in the desk
-app_include_css = [
-    "/assets/persiandateerpnext/css/persian-datepicker.min.css",
-    "/assets/persiandateerpnext/css/custom.css"
-]
+# Assets Bundle - Preferred method for Frappe v15+
+app_include_css = "/assets/persiandateerpnext/css/persiandateerpnext.bundle.css"
+app_include_js = "/assets/persiandateerpnext/js/persiandateerpnext.bundle.js"
 
-app_include_js = [
-    "/assets/persiandateerpnext/js/persian-date.min.js",
-    "/assets/persiandateerpnext/js/persian-datepicker.min.js",
-    "/assets/persiandateerpnext/js/togregorian_date.js",
-    "/assets/persiandateerpnext/js/topersian_date.js",
-    "/assets/persiandateerpnext/js/in_words_cleanup.js"
-]
+# Legacy method - fallback if bundle doesn't work
+# app_include_css = [
+#     "/assets/persiandateerpnext/css/persian-datepicker.min.css",
+#     "/assets/persiandateerpnext/css/custom.css"
+# ]
 
-# Include JS/CSS in web template
-web_include_css = [
-    "/assets/persiandateerpnext/css/persian-datepicker.min.css",
-    "/assets/persiandateerpnext/css/custom.css"
-]
+# app_include_js = [
+#     "/assets/persiandateerpnext/js/persian-date.min.js",
+#     "/assets/persiandateerpnext/js/persian-datepicker.min.js",
+#     "/assets/persiandateerpnext/js/togregorian_date.js",
+#     "/assets/persiandateerpnext/js/topersian_date.js",
+#     "/assets/persiandateerpnext/js/in_words_cleanup.js"
+# ]
 
-web_include_js = [
-    "/assets/persiandateerpnext/js/persian-date.min.js",
-    "/assets/persiandateerpnext/js/persian-datepicker.min.js",
-    "/assets/persiandateerpnext/js/togregorian_date.js",
-    "/assets/persiandateerpnext/js/topersian_date.js"
-]
+# Include JS/CSS in web template (website)
+web_include_css = "/assets/persiandateerpnext/css/persiandateerpnext.bundle.css"
+web_include_js = "/assets/persiandateerpnext/js/persiandateerpnext.bundle.js"
 
-# Website Route Rules
-# website_route_rules = []
-
-# Generators
-# website_generators = []
-
-# Installation
+# Installation hooks
 # ----------------
 
-# before_install = "persiandateerpnext.install.before_install"
-# after_install = "persiandateerpnext.install.after_install"
+after_install = "persiandateerpnext.install.install.after_install"
 
 # Uninstallation
 # ----------------
 
 # before_uninstall = "persiandateerpnext.uninstall.before_uninstall"
 # after_uninstall = "persiandateerpnext.uninstall.after_uninstall"
+
+# Website Route Rules
+# website_route_rules = []
+
+# Generators
+# website_generators = []
 
 # Integration Setup
 # ------------------

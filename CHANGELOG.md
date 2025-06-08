@@ -5,22 +5,40 @@ All notable changes to the Persian Date ERPNext project will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-06-08
+
+### Added
+- 🔧 Asset bundling system with bundle.json configuration
+- 📦 Installation hooks with user-friendly notifications
+- 📚 Comprehensive troubleshooting guide with asset debugging
+- 🎯 Enhanced installation instructions with migrate step
+
+### Fixed
+- 🐛 Asset loading issues with proper bundle configuration
+- 🐛 CSS/JS not copying correctly after installation
+- 🔧 Module structure for better ERPNext compatibility
+
+### Improved
+- 🚀 Build process with force rebuild options
+- 🧹 Cache management and clearing procedures
+- 📖 Documentation with detailed troubleshooting
+
+## [1.0.1] - 2025-06-08
+
+### Fixed
+- 🐛 Module structure for proper installation
+- ✨ Added persian_date_erpnext module directory
+- 📚 Updated installation troubleshooting guide
+
 ## [1.0.0] - 2025-06-08
 
 ### Added
+- ✨ Initial release
 - ✨ Complete ERPNext 15.64.1+ compatibility
 - ✨ Dual storage mode support (Gregorian/Persian)
-- ✨ Automatic System Settings configuration with custom fields
-- ✨ Seamless integration with all Date and Datetime fields
-- ✨ Real-time Gregorian date display below Jalali fields
-- ✨ Beautiful Persian datepicker with RTL support
-- ✨ Smart "Only"/"فقط" suffix cleanup for in_words fields
-- ✨ Responsive design for mobile devices
-- ✨ Dark mode support
-- ✨ Complete form lifecycle integration
-- ✨ Production-ready code quality with proper error handling
-- ✨ Comprehensive documentation and installation guide
-- ✨ MIT license for open source distribution
+- ✨ Complete form integration
+- ✨ Automatic System Settings configuration
+- ✨ Production-ready code quality
 
 ### Technical Features
 - 🔧 Proper hooks.py configuration for ERPNext 15+
@@ -110,6 +128,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 - 🐛 [Report bugs](https://github.com/erenaydin-t/persiandateerpnext/issues)
 - 💡 [Request features](https://github.com/erenaydin-t/persiandateerpnext/issues)
+- 📧 Email: ideenemium@gmail.com
 
 ## License
 

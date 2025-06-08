@@ -49,8 +49,14 @@ bench get-app https://github.com/erenaydin-t/persiandateerpnext.git
 # Install the app on your site
 bench --site [your-site-name] install-app persiandateerpnext
 
-# Build assets
+# Run migrations to install custom fields
+bench --site [your-site-name] migrate
+
+# Build assets and bundles
 bench build --app persiandateerpnext
+
+# Clear cache
+bench --site [your-site-name] clear-cache
 
 # Restart bench
 bench restart
@@ -67,6 +73,9 @@ mv persiandateerpnext /path/to/your/bench/apps/
 
 # Install the app
 bench --site [your-site-name] install-app persiandateerpnext
+
+# Run migrations
+bench --site [your-site-name] migrate
 
 # Build and restart
 bench build
@@ -144,9 +153,12 @@ persiandateerpnext/
 │   ├── config/
 │   ├── fixtures/
 │   │   └── custom_field.json      # System Settings custom fields
+│   ├── install/
+│   │   └── install.py             # Installation hooks
 │   ├── persian_date_erpnext/       # Main module
 │   │   └── doctype/
 │   ├── public/
+│   │   ├── bundle.json            # Asset bundling configuration
 │   │   ├── css/
 │   │   │   ├── custom.css         # Custom styling
 │   │   │   └── persian-datepicker.min.css
@@ -202,33 +214,53 @@ If you encounter "No module named 'persiandateerpnext.persian_date_erpnext'" err
 bench --site [site-name] uninstall-app persiandateerpnext
 bench get-app https://github.com/erenaydin-t/persiandateerpnext.git --force
 bench --site [site-name] install-app persiandateerpnext
+bench --site [site-name] migrate
 ```
 
-#### 2. Datepicker Not Showing
+#### 2. Assets not loading (CSS/JS not working)
 ```bash
-# Clear cache and rebuild
+# Build assets with force flag
+bench build --app persiandateerpnext --force
+
+# Clear all caches
 bench --site [site-name] clear-cache
-bench build --app persiandateerpnext
+bench --site [site-name] clear-website-cache
+
+# Restart bench
 bench restart
+
+# Check if bundle files exist
+ls -la sites/assets/persiandateerpnext/
 ```
 
-#### 3. Persian Fonts Not Loading
+#### 3. Datepicker Not Showing
+- Ensure System Settings are configured correctly
+- Check browser console for JavaScript errors
+- Verify that all required JS libraries are loaded
+- Clear browser cache
+
+#### 4. Persian Fonts Not Loading
 - Ensure your browser supports Persian fonts
 - Check CSS files are loading correctly in browser developer tools
 
-#### 4. Date Conversion Issues
+#### 5. Date Conversion Issues
 - Verify System Settings configuration
 - Check browser console for JavaScript errors
 - Ensure all required JS libraries are loaded
 
-#### 5. Installation Errors
+#### 6. Installation Errors
 ```bash
 # Check app installation status
 bench --site [site-name] list-apps
 
-# Reinstall if necessary
+# Complete reinstall if necessary
 bench --site [site-name] uninstall-app persiandateerpnext
+bench remove-app persiandateerpnext
+bench get-app https://github.com/erenaydin-t/persiandateerpnext.git
 bench --site [site-name] install-app persiandateerpnext
+bench --site [site-name] migrate
+bench build --app persiandateerpnext
+bench restart
 ```
 
 ### Debug Mode
@@ -302,10 +334,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Changelog | تغییرات
 
+### Version 1.0.2
+- 🐛 **Fix**: Asset bundling and loading issues
+- ✨ **Add**: Installation hooks with user notifications
+- 📚 **Update**: Comprehensive troubleshooting guide
+- 🔧 **Improve**: Build process and cache management
+
 ### Version 1.0.1
-- 🐛 Fixed module structure for proper installation
-- ✨ Added persian_date_erpnext module directory
-- 📚 Updated installation troubleshooting guide
+- 🐛 **Fix**: Module structure for proper installation
+- ✨ **Add**: persian_date_erpnext module directory
+- 📚 **Update**: Installation troubleshooting guide
 
 ### Version 1.0.0
 - ✨ Initial release
