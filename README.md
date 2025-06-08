@@ -151,11 +151,11 @@ Once enabled, all date and datetime fields throughout ERPNext will automatically
 
 ## Changelog | تغییرات
 
-### Version 1.0.3 (Current)
-- 🔧 **Fix**: Simplified assets loading with legacy method for better compatibility
-- 📦 **Add**: Debug script to troubleshoot assets loading
-- 📚 **Add**: TROUBLESHOOTING.md guide with step-by-step solutions
-- 🎯 **Improve**: More reliable installation process with better error handling
+### Version 1.0.4 (Current - Assets Fix)
+- 🔧 **CRITICAL FIX**: Manual assets copy system to resolve 404 errors
+- 📜 **Add**: Auto-fix script (fix_assets.sh) for manual troubleshooting
+- 🔍 **Add**: Enhanced installation hooks with asset verification
+- 📚 **Add**: Comprehensive TROUBLESHOOTING.md with 404 solutions
 
 ### Version 1.0.2
 - 🐛 **Fix**: Asset bundling and loading issues

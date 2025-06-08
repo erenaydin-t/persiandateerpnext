@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+sites/assets/# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -181,6 +181,7 @@ yarn-error.log*
 **/public/js/lib/
 **/public/css/lib/
 **/public/build.json
+sites/assets/
 
 # Backup files
 *.bak

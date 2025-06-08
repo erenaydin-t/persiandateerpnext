@@ -5,23 +5,23 @@ All notable changes to the Persian Date ERPNext project will be documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.2] - 2025-06-08
+## [1.0.4] - 2025-06-08
 
 ### Added
-- 🔧 Asset bundling system with bundle.json configuration
-- 📦 Installation hooks with user-friendly notifications
-- 📚 Comprehensive troubleshooting guide with asset debugging
-- 🎯 Enhanced installation instructions with migrate step
+- 🔧 **CRITICAL FIX**: Manual assets copy system to resolve 404 errors
+- 📜 Auto-fix script (fix_assets.sh) for manual troubleshooting
+- 🔍 Enhanced installation hooks with asset verification
+- 📚 Comprehensive TROUBLESHOOTING.md with 404 solutions
 
 ### Fixed
-- 🐛 Asset loading issues with proper bundle configuration
-- 🐛 CSS/JS not copying correctly after installation
-- 🔧 Module structure for better ERPNext compatibility
+- 🐛 **MAJOR**: Assets not loading (404 errors) - now auto-copied during install
+- 🔧 ERPNext 15+ compatibility with proper asset paths
+- 🎯 Production and development mode asset serving
 
 ### Improved
-- 🚀 Build process with force rebuild options
-- 🧹 Cache management and clearing procedures
-- 📖 Documentation with detailed troubleshooting
+- 🚀 Installation process with automatic asset copying
+- 🧹 Asset cleanup during uninstall
+- 📖 Installation documentation with troubleshooting
 
 ## [1.0.1] - 2025-06-08
 
