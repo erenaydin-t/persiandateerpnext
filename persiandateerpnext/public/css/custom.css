@@ -1,7 +1,14 @@
-/* Persian Date ERPNext Custom CSS */
+/* Persian Date ERPNext Custom CSS - Conflict-Free Version */
 
-/* غیرفعال کردن تقویم استاندارد فراپه */
-.datepickers-container {
+/* غیرفعال کردن هوشمند تقویم پیش‌فرض فراپه فقط برای فیلدهای فعال شده */
+.frappe-control[data-fieldtype="Date"].jalali-enabled .datepickers-container,
+.frappe-control[data-fieldtype="Datetime"].jalali-enabled .datepickers-container {
+    display: none !important;
+}
+
+/* مخفی کردن آیکون تقویم پیش‌فرض برای فیلدهای فعال شده */
+.frappe-control[data-fieldtype="Date"].jalali-enabled .input-with-feedback::after,
+.frappe-control[data-fieldtype="Datetime"].jalali-enabled .input-with-feedback::after {
     display: none !important;
 }
 
@@ -22,10 +29,21 @@
     text-align: left;
 }
 
-/* استایل تقویم فارسی */
+/* استایل تقویم فارسی با z-index بالاتر */
 .datepicker-container {
     font-family: var(--font-family-sans-serif);
-    z-index: 9999 !important;
+    z-index: 999999 !important; /* بالاتر از همه */
+    position: absolute !important;
+}
+
+/* زمانی که در modal باز می‌شود */
+.modal .datepicker-container {
+    z-index: 1099999 !important; /* بالاتر از modal */
+}
+
+/* زمانی که در sidebar باز می‌شود */
+.layout-side-section .datepicker-container {
+    z-index: 999999 !important;
 }
 
 /* RTL برای تقویم فارسی */

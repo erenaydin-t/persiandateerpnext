@@ -1,13 +1,15 @@
 {
   "css/persiandateerpnext.bundle.css": [
-    "public/css/persian-datepicker.min.css",
-    "public/css/custom.css"
+    "persiandateerpnext/public/css/persian-datepicker.min.css",
+    "persiandateerpnext/public/css/custom.css"
   ],
   "js/persiandateerpnext.bundle.js": [
-    "public/js/persian-date.min.js",
-    "public/js/persian-datepicker.min.js",
-    "public/js/togregorian_date.js",
-    "public/js/topersian_date.js",
-    "public/js/in_words_cleanup.js"
+    "persiandateerpnext/public/js/conflict_resolver.js",
+    "persiandateerpnext/public/js/debug_check.js",
+    "persiandateerpnext/public/js/persian-date.min.js",
+    "persiandateerpnext/public/js/persian-datepicker.min.js",
+    "persiandateerpnext/public/js/togregorian_date.js",
+    "persiandateerpnext/public/js/topersian_date.js",
+    "persiandateerpnext/public/js/in_words_cleanup.js"
   ]
 }

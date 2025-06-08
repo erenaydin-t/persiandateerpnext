@@ -39,14 +39,33 @@ ls -la sites/assets/persiandateerpnext/css/
 echo "JS files:" 
 ls -la sites/assets/persiandateerpnext/js/
 
-echo "🏗️ Building assets..."
-bench build
+echo "🏗️ Building assets with force..."
+bench build --app persiandateerpnext --force
 
 echo "🧹 Clearing cache..."
 bench --site all clear-cache
 
 echo "🔄 Restarting bench..."
 bench restart
+
+echo "🔍 Verifying bundle files..."
+if [ -f "sites/assets/persiandateerpnext/css/persiandateerpnext.bundle.css" ]; then
+    echo "✅ CSS bundle created successfully"
+else
+    echo "❌ CSS bundle missing - trying individual files..."
+    # Fallback: copy individual files with bundle-compatible names
+    cp apps/persiandateerpnext/persiandateerpnext/public/css/*.css sites/assets/persiandateerpnext/css/
+    cat sites/assets/persiandateerpnext/css/persian-datepicker.min.css sites/assets/persiandateerpnext/css/custom.css > sites/assets/persiandateerpnext/css/persiandateerpnext.bundle.css
+fi
+
+if [ -f "sites/assets/persiandateerpnext/js/persiandateerpnext.bundle.js" ]; then
+    echo "✅ JS bundle created successfully"
+else
+    echo "❌ JS bundle missing - trying individual files..."
+    # Fallback: copy and concatenate individual files
+    cp apps/persiandateerpnext/persiandateerpnext/public/js/*.js sites/assets/persiandateerpnext/js/
+    cat sites/assets/persiandateerpnext/js/conflict_resolver.js sites/assets/persiandateerpnext/js/debug_check.js sites/assets/persiandateerpnext/js/persian-date.min.js sites/assets/persiandateerpnext/js/persian-datepicker.min.js sites/assets/persiandateerpnext/js/togregorian_date.js sites/assets/persiandateerpnext/js/topersian_date.js sites/assets/persiandateerpnext/js/in_words_cleanup.js > sites/assets/persiandateerpnext/js/persiandateerpnext.bundle.js
+fi
 
 echo ""
 echo "✅ Manual assets fix completed!"

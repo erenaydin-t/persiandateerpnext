@@ -65,10 +65,13 @@ bench --site [your-site-name] clear-cache
 bench restart
 ```
 
-### 🚨 اگر مشکل Assets دارید:
+### ⚠️ اگر مشکل Assets یا کانفلیکت دارید:
 
 ```bash
-# Complete reinstall process:
+# Complete reinstall with conflict resolution:
+./complete_reinstall.sh [site-name]
+
+# یا برای حل فوری:
 bench --site [site-name] uninstall-app persiandateerpnext
 bench remove-app persiandateerpnext
 bench get-app https://github.com/erenaydin-t/persiandateerpnext.git
@@ -151,11 +154,14 @@ Once enabled, all date and datetime fields throughout ERPNext will automatically
 
 ## Changelog | تغییرات
 
-### Version 1.0.4 (Current - Assets Fix)
-- 🔧 **CRITICAL FIX**: Manual assets copy system to resolve 404 errors
-- 📜 **Add**: Auto-fix script (fix_assets.sh) for manual troubleshooting
-- 🔍 **Add**: Enhanced installation hooks with asset verification
-- 📚 **Add**: Comprehensive TROUBLESHOOTING.md with 404 solutions
+### Version 1.0.8 (Current - Conflict Resolution)
+- 🔧 **CRITICAL FIX**: Complete resolution of CSS/JS conflicts with ERPNext
+- 🛡️ **Smart Conflict Handling**: Selective override of conflicting datepickers
+- 📦 **Bundle System**: Improved asset bundling to prevent conflicts
+- 🎯 **Z-index Management**: Proper layer management for modal/sidebar compatibility
+- 🔄 **Auto-detection**: Automatic conflict resolution based on field activation
+- 📜 **Complete Reinstall Script**: New script for clean installation
+- 🔍 **Enhanced Debugging**: Better conflict detection and resolution logging
 
 ### Version 1.0.2
 - 🐛 **Fix**: Asset bundling and loading issues

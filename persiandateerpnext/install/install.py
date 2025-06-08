@@ -8,6 +8,9 @@ def after_install():
         # Force copy assets manually
         copy_assets_manually()
         
+        # Build bundles
+        build_bundles()
+        
         # Force rebuild assets
         frappe.clear_cache()
         
@@ -227,6 +230,61 @@ def verify_assets_copied(bench_path):
                 print(f"⚠️ {app} {asset_type} assets may be missing")
         else:
             print(f"⚠️ {app} {asset_type} directory not found")
+
+def build_bundles():
+    """Build CSS and JS bundles manually if needed"""
+    try:
+        import frappe.utils
+        bench_path = frappe.utils.get_bench_path()
+        
+        # Paths
+        assets_path = os.path.join(bench_path, "sites", "assets", "persiandateerpnext")
+        css_bundle_path = os.path.join(assets_path, "css", "persiandateerpnext.bundle.css")
+        js_bundle_path = os.path.join(assets_path, "js", "persiandateerpnext.bundle.js")
+        
+        # Build CSS bundle if not exists
+        if not os.path.exists(css_bundle_path):
+            css_files = [
+                os.path.join(assets_path, "css", "persian-datepicker.min.css"),
+                os.path.join(assets_path, "css", "custom.css")
+            ]
+            
+            bundle_content = ""
+            for css_file in css_files:
+                if os.path.exists(css_file):
+                    with open(css_file, 'r', encoding='utf-8') as f:
+                        bundle_content += f.read() + "\n"
+            
+            if bundle_content:
+                with open(css_bundle_path, 'w', encoding='utf-8') as f:
+                    f.write(bundle_content)
+                print("✅ CSS bundle created manually")
+        
+        # Build JS bundle if not exists
+        if not os.path.exists(js_bundle_path):
+            js_files = [
+                os.path.join(assets_path, "js", "conflict_resolver.js"),
+                os.path.join(assets_path, "js", "debug_check.js"),
+                os.path.join(assets_path, "js", "persian-date.min.js"),
+                os.path.join(assets_path, "js", "persian-datepicker.min.js"),
+                os.path.join(assets_path, "js", "togregorian_date.js"),
+                os.path.join(assets_path, "js", "topersian_date.js"),
+                os.path.join(assets_path, "js", "in_words_cleanup.js")
+            ]
+            
+            bundle_content = ""
+            for js_file in js_files:
+                if os.path.exists(js_file):
+                    with open(js_file, 'r', encoding='utf-8') as f:
+                        bundle_content += f.read() + "\n;"
+            
+            if bundle_content:
+                with open(js_bundle_path, 'w', encoding='utf-8') as f:
+                    f.write(bundle_content)
+                print("✅ JS bundle created manually")
+                
+    except Exception as e:
+        print(f"⚠️ Bundle creation warning: {str(e)}")
 
 def before_uninstall():
     """Called before app uninstallation"""

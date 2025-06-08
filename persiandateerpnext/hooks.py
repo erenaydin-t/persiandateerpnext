@@ -4,7 +4,7 @@ app_publisher = "Ideenemium"
 app_description = "A comprehensive solution to convert ERPNext date and datetime fields to Shamsi (Jalali) Calendar"
 app_email = "ideenemium@gmail.com"
 app_license = "MIT"
-app_version = "1.0.7"
+app_version = "1.0.8"
 
 # Required app for ERPNext
 required_apps = ["erpnext"]
@@ -20,47 +20,22 @@ fixtures = [
     }
 ]
 
-# Assets - Multiple inclusion methods for maximum compatibility
+# Assets - Bundle-based inclusion to prevent conflicts
 app_include_css = [
-    "persiandateerpnext/css/persian-datepicker.min.css",
-    "persiandateerpnext/css/custom.css"
+    "/assets/persiandateerpnext/css/persiandateerpnext.bundle.css"
 ]
 
 app_include_js = [
-    "persiandateerpnext/js/debug_check.js",
-    "persiandateerpnext/js/persian-date.min.js",
-    "persiandateerpnext/js/persian-datepicker.min.js",
-    "persiandateerpnext/js/togregorian_date.js",
-    "persiandateerpnext/js/topersian_date.js",
-    "persiandateerpnext/js/in_words_cleanup.js"
+    "/assets/persiandateerpnext/js/persiandateerpnext.bundle.js"
 ]
 
-# Alternative paths
-# app_include_css = [
-#     "/assets/persiandateerpnext/css/persian-datepicker.min.css",
-#     "/assets/persiandateerpnext/css/custom.css"
-# ]
-
-# app_include_js = [
-#     "/assets/persiandateerpnext/js/debug_check.js",
-#     "/assets/persiandateerpnext/js/persian-date.min.js",
-#     "/assets/persiandateerpnext/js/persian-datepicker.min.js",
-#     "/assets/persiandateerpnext/js/togregorian_date.js",
-#     "/assets/persiandateerpnext/js/topersian_date.js",
-#     "/assets/persiandateerpnext/js/in_words_cleanup.js"
-# ]
-
-# Include JS/CSS in web template (website)
+# Include JS/CSS in web template (website) - using bundle
 web_include_css = [
-    "persiandateerpnext/css/persian-datepicker.min.css",
-    "persiandateerpnext/css/custom.css"
+    "/assets/persiandateerpnext/css/persiandateerpnext.bundle.css"
 ]
 
 web_include_js = [
-    "persiandateerpnext/js/persian-date.min.js",
-    "persiandateerpnext/js/persian-datepicker.min.js",
-    "persiandateerpnext/js/togregorian_date.js",
-    "persiandateerpnext/js/topersian_date.js"
+    "/assets/persiandateerpnext/js/persiandateerpnext.bundle.js"
 ]
 
 # Installation hooks
